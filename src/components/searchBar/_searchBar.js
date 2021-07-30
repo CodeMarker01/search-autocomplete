@@ -2,11 +2,13 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { flexbox } from "../../styles/helpers/mixins";
 export const SearchBarContainer = styled(motion.div)`
-  ${flexbox({
+  /* ${flexbox({
     flexDirection: "column",
     alignItems: "stretch",
     justifyContent: "flex-start",
-  })}
+  })} */
+  display: flex;
+  flex-direction: column;
   width: 34em;
   height: 3.8em;
   /* height: ${(props) => (props.height ? props.height : "3em")}; */
@@ -62,4 +64,28 @@ export const CloseIcon = styled(motion.span)`
   &:hover {
     color: #dfdfdf;
   }
+`;
+
+export const LineSeperator = styled.div`
+  display: flex;
+  min-width: 100%;
+  min-height: 2px;
+  background-color: #d8d8d878;
+`;
+
+export const SearchContent = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  overflow-y: auto;
+`;
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  ${flexbox}
 `;

@@ -8,11 +8,15 @@ import {
 } from "../../state/hooks/helpers";
 import {
   CloseIcon,
+  LineSeperator,
+  LoadingWrapper,
   SearchBarContainer,
+  SearchContent,
   SearchIcon,
   SearchInput,
   SearchInputContainer,
 } from "./_searchBar";
+import MoonLoader from "react-spinners/MoonLoader";
 
 const containerVariants = {
   expanded: {
@@ -28,6 +32,7 @@ const containerTransition = { type: "spring", damping: 22, stiffness: 150 };
 const SearchBar = () => {
   //states
   const [isExpanded, setExpanded] = useState(false);
+  const inputRef = useRef();
 
   const [parentRef, isClickedOutside] = useClickOutside();
   // const [parentRef, isClickedOutside] = useOnClickOutsideMe();
@@ -40,8 +45,8 @@ const SearchBar = () => {
 
   const handleCollapse = () => {
     setExpanded(false);
-    if (parentRef.current) {
-      parentRef.current.value = "";
+    if (inputRef.current) {
+      inputRef.current.value = "";
     }
   };
 
@@ -59,6 +64,7 @@ const SearchBar = () => {
       animate={isExpanded ? "expanded" : "collapsed"}
       variants={containerVariants}
       transition={containerTransition}
+      ref={parentRef}
     >
       <SearchInputContainer>
         <SearchIcon>
@@ -67,7 +73,7 @@ const SearchBar = () => {
         <SearchInput
           placeholder="Search for TV shows..."
           onFocus={handleExpand}
-          ref={parentRef}
+          ref={inputRef}
         />
         <AnimatePresence>
           {isExpanded && (
@@ -83,6 +89,14 @@ const SearchBar = () => {
           )}
         </AnimatePresence>
       </SearchInputContainer>
+      {isExpanded && <LineSeperator />}
+      {isExpanded && (
+        <SearchContent>
+          <LoadingWrapper>
+            <MoonLoader loading />
+          </LoadingWrapper>
+        </SearchContent>
+      )}
     </SearchBarContainer>
   );
 };
