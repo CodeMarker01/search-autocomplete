@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useClickOutside } from "react-click-outside-hook";
 import { IoClose, IoSearch } from "react-icons/io5";
 import {
   CloseIcon,
@@ -8,14 +9,53 @@ import {
   SearchInputContainer,
 } from "./_searchBar";
 
-const searchBar = () => {
+const containerVariants = {
+  expanded: {
+    height: "30em",
+  },
+  collapsed: {
+    height: "3.8em",
+  },
+};
+
+const containerTransition = { type: "spring", damping: 22, stiffness: 150 };
+
+const SearchBar = () => {
+  //states
+  const [isExpanded, setExpanded] = useState(false);
+  const [parentRef, isClickedOutside] = useClickOutside();
+  console.log(parentRef, isClickedOutside);
+
+  const handleExpand = () => {
+    setExpanded(true);
+  };
+
+  const handleCollapse = () => {
+    setExpanded(false);
+  };
+
+  useEffect(() => {
+    if (isClickedOutside) {
+      handleCollapse();
+    }
+  }, [isClickedOutside]);
+
+  //render
   return (
-    <SearchBarContainer>
+    <SearchBarContainer
+      animate={isExpanded ? "expanded" : "collapsed"}
+      variants={containerVariants}
+      transition={containerTransition}
+    >
       <SearchInputContainer>
         <SearchIcon>
           <IoSearch />
         </SearchIcon>
-        <SearchInput placeholder="Search for TV shows..." />
+        <SearchInput
+          placeholder="Search for TV shows..."
+          onFocus={handleExpand}
+          ref={parentRef}
+        />
         <CloseIcon>
           <IoClose />
         </CloseIcon>
@@ -24,4 +64,4 @@ const searchBar = () => {
   );
 };
 
-export default searchBar;
+export default SearchBar;

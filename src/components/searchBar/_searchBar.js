@@ -1,9 +1,15 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 import { flexbox } from "../../styles/helpers/mixins";
-export const SearchBarContainer = styled.div`
-  ${flexbox({ flexDirection: "column" })}
+export const SearchBarContainer = styled(motion.div)`
+  ${flexbox({
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+  })}
   width: 34em;
   height: 3.8em;
+  /* height: ${(props) => (props.height ? props.height : "3em")}; */
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0px 2px 12px 3px rgba(0, 0, 0, 0.14);
