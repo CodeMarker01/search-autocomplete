@@ -1,4 +1,5 @@
 import logo from "./logo.svg";
+import styled from "styled-components";
 import "./App.css";
 import {
   Background2,
@@ -9,14 +10,14 @@ import {
 } from "./styles/layout/header";
 import { ThemeProvider } from "styled-components";
 import { theme, theme2 } from "./styles/helpers/theme";
+import SearchBar from "./components/searchBar";
+import { AppContainer } from "./styles/layout/_mainpage";
 
 function App() {
   return (
-    // <ThemeProvider theme={theme2}>
-    <BackgroundHeader3 color="lightcoral" bgcolor="cyan" className="App">
-      anh em ta
-    </BackgroundHeader3>
-    // </ThemeProvider>
+    <AppContainer>
+      <SearchBar />
+    </AppContainer>
   );
 }
 

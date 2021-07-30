@@ -15,6 +15,7 @@ export const BackgroundHeader3 = styled.div`
   color: ${(props) => (props.color ? props.color : "lightgoldenrodyellow")};
 `;
 
+//* khong dung duoc
 export const BackgroundHeader4 = styled.div`
   ${Bg((color) => (color ? color : "lightgoldenrodyellow"))}/* ${Bg({
     color: "cyan",
