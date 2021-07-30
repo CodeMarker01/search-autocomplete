@@ -9,4 +9,5 @@ export const AppContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 8em;
+  box-sizing: border-box;
 `;

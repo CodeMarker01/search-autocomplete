@@ -15,6 +15,7 @@ export const SearchBarContainer = styled(motion.div)`
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0px 2px 12px 3px rgba(0, 0, 0, 0.14);
+  box-sizing: border-box;
 `;
 export const SearchInputContainer = styled.div`
   width: 100%;
@@ -78,14 +79,19 @@ export const SearchContent = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  /* padding: 1em; */
   overflow-y: auto;
 `;
 export const LoadingWrapper = styled.div`
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   /* display: flex; */
   /* align-items: center; */
   /* justify-content: center; */
-  ${flexbox}
+  /* ${flexbox} */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

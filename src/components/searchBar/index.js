@@ -20,6 +20,7 @@ import {
 } from "./_searchBar";
 import MoonLoader from "react-spinners/MoonLoader";
 import axios from "axios";
+import TvShow from "../tvShow";
 
 const containerVariants = {
   expanded: {
@@ -37,7 +38,14 @@ const SearchBar = () => {
   const [isExpanded, setExpanded] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [tvShowData, setTvShowData] = useState([]);
+  console.log(
+    "🚀 ~ file: index.js ~ line 41 ~ SearchBar ~ tvShowData",
+    tvShowData
+  );
   const inputRef = useRef();
+
+  const isEmpty = !tvShowData || tvShowData.length === 0;
 
   const [parentRef, isClickedOutside] = useClickOutside();
   // const [parentRef, isClickedOutside] = useOnClickOutsideMe();
@@ -45,8 +53,7 @@ const SearchBar = () => {
   // const parentRef = useRef();
 
   //todo useDebounce
-  const debouncedSearchTerm = useDebounce(searchQuery, 1500);
-  console.log("debounceSearchterm", debouncedSearchTerm);
+  const debouncedSearchTerm = useDebounce(searchQuery, 1000);
 
   const handleExpand = () => {
     setExpanded(true);
@@ -54,6 +61,9 @@ const SearchBar = () => {
 
   const handleCollapse = () => {
     setExpanded(false);
+    setLoading(false);
+    setSearchQuery("");
+    setTvShowData([]);
     if (inputRef.current) {
       inputRef.current.value = "";
     }
@@ -88,7 +98,9 @@ const SearchBar = () => {
 
     (async () => {
       const res = await axios.get(URL);
+      setLoading(false);
       console.log("Response from useEff async", res.data);
+      setTvShowData(res.data);
     })();
   }, [debouncedSearchTerm]);
 
@@ -156,9 +168,23 @@ const SearchBar = () => {
       {isExpanded && <LineSeperator />}
       {isExpanded && (
         <SearchContent>
-          <LoadingWrapper>
-            <MoonLoader loading />
-          </LoadingWrapper>
+          {isLoading && (
+            <LoadingWrapper>
+              <MoonLoader loading />
+            </LoadingWrapper>
+          )}
+          {!isLoading && !isEmpty && (
+            <>
+              {tvShowData.map(({ show }) => (
+                <TvShow
+                  key={show.id}
+                  thumbnailSrc={show.image?.medium}
+                  name={show.name}
+                  rating={show.rating?.average}
+                />
+              ))}
+            </>
+          )}
         </SearchContent>
       )}
     </SearchBarContainer>
