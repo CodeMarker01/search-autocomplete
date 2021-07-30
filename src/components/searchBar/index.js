@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useClickOutside } from "react-click-outside-hook";
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
+// import { useClickOutside } from "react-click-outside-hook";
 import { IoClose, IoSearch } from "react-icons/io5";
+import {
+  useOnClickOutsideMe,
+  useClickOutside,
+} from "../../state/hooks/helpers";
 import {
   CloseIcon,
   SearchBarContainer,
@@ -23,8 +28,11 @@ const containerTransition = { type: "spring", damping: 22, stiffness: 150 };
 const SearchBar = () => {
   //states
   const [isExpanded, setExpanded] = useState(false);
+
   const [parentRef, isClickedOutside] = useClickOutside();
-  console.log(parentRef, isClickedOutside);
+  // const [parentRef, isClickedOutside] = useOnClickOutsideMe();
+  // console.log(parentRef.current.value, isClickedOutside);
+  // const parentRef = useRef();
 
   const handleExpand = () => {
     setExpanded(true);
@@ -32,7 +40,12 @@ const SearchBar = () => {
 
   const handleCollapse = () => {
     setExpanded(false);
+    if (parentRef.current) {
+      parentRef.current.value = "";
+    }
   };
+
+  // useOnClickOutsideMe(parentRef, handleCollapse);
 
   useEffect(() => {
     if (isClickedOutside) {
@@ -56,9 +69,19 @@ const SearchBar = () => {
           onFocus={handleExpand}
           ref={parentRef}
         />
-        <CloseIcon>
-          <IoClose />
-        </CloseIcon>
+        <AnimatePresence>
+          {isExpanded && (
+            <CloseIcon
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+              exit={{ opacity: 0 }}
+              onClick={handleCollapse}
+            >
+              <IoClose />
+            </CloseIcon>
+          )}
+        </AnimatePresence>
       </SearchInputContainer>
     </SearchBarContainer>
   );

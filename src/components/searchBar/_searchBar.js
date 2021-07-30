@@ -51,7 +51,7 @@ export const SearchInput = styled.input`
     transition: all 250ms ease-in-out;
   }
 `;
-export const CloseIcon = styled.span`
+export const CloseIcon = styled(motion.span)`
   color: #bebebe;
   font-size: 23px;
   vertical-align: middle;
